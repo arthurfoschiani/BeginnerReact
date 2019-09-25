@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="CSS/style.css">
+    <title>Pokémon</title>
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand">Pokémon</a>
+        <form class="form-inline">
+            <input id="inputt" class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search">
+            <button id="buttonn" class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+        </form>
+    </nav>
+    <table class="table" id="tabelaa">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Habilidade</th>
+                <th scope="col">Imagem</th>
+                <th scope="col">Peso</th>
+                <th scope="col">Altura</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+        </table>
+    <script>
+        const input = document.querySelector("#inputt");
+        const button = document.querySelector("#buttonn");
+        const tabela = document.querySelector("#tabelaa");
+
+        input.addEventListener('click',function(){
+        
+            let objetoJSON = {
+                name: input.value
+            };
+        });
+
+        window.onload = () => {
+            const URL = 'https://pokeapi.co/api/v2/pokemon' += objetoJSON;
+            fetch(URL).then(resposta=>resposta.json()).then(data=>preencherTabela(data)).catch(erro=>console.log(erro));
+            
+            function preencherTabela(data) {
+                console.log(data)                    
+                const tr = document.createElement('tr');
+                const td_Id = document.createElement('td');
+                const td_Habilidade = document.createElement('td');
+                const td_Imagem = document.createElement('td');
+                const td_Weight = document.createElement('td');
+                const td_Height = document.createElement('td');
+                
+                td_Id.textContent = data.id;
+                data.abilities.forEach(Element => {
+                        td_Habilidade.innerHTML += "<p>" + Element.ability.name + "</p>";
+                    }) 
+                td_Imagem.innerHTML = "<img style='width: 10vh;' src='" + data.sprites.front_default + "'>";
+                td_Weight.textContent = data.weight;
+                td_Height.textContent = data.height;
+
+                tabela.appendChild(tr);
+                tr.appendChild(td_Id);
+                tr.appendChild(td_Habilidade);
+                tr.appendChild(td_Imagem);
+                tr.appendChild(td_Weight);
+                tr.appendChild(td_Height);
+            };
+        };
+    </script>
+</body>
+</html>
