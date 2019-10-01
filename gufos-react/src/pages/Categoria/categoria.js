@@ -11,7 +11,8 @@ class Categoria extends Component {
                 // {idCategoria: 1, nome: "Design"},
                 // {idCategoria: 2, nome: "Jogos"},
                 // {idCategoria: 3, nome: "Meetup"}
-            ]
+            ],
+            nome: ''
         }
     }
 
@@ -23,7 +24,28 @@ class Categoria extends Component {
 
     adicionarItem = (event) => {
         event.preventDefault();
-        this.setState({lista:[{idCategoria: 4, nome: "Nova Categoria"}]})
+        fetch('http://localhost:5000/api/categorias',{
+            method: "POST",
+            body: JSON.stringify({nome: this.state.nome}),
+            headers:{
+                "Content-Type" : "application/json"
+            }
+        })
+            .then(response => response.json())
+            .then(this.adicionaCategoria)
+            .catch(erro => console.log(erro));
+    }
+
+    adicionaCategoria = (event) =>{
+        console.log(event)
+        let valores_lista = this.state.lista;
+        let categoria = {nome: this.state.nome}
+        valores_lista.push(categoria)
+        this.setState({lista:valores_lista})
+    }
+
+    atualizarNome = (event) => {
+        this.setState({nome: event.target.value});
     }
 
     render(){
@@ -54,7 +76,7 @@ class Categoria extends Component {
                         <tbody id="tabela-lista-corpo">
                             {this.state.lista.map(Element => {
                                 return (
-                                    <tr>
+                                    <tr key={Element.idCategoria}>
                                         <td>{Element.idCategoria}</td>
                                         <td>{Element.nome}</td>
                                     </tr>
@@ -75,6 +97,8 @@ class Categoria extends Component {
                             className="className__categoria"
                             id="input__categoria"
                             placeholder="tipo do evento"
+                            value={this.state.nome}
+                            onInput={this.atualizarNome}
                             />
                             <button
                             onClick={this.adicionarItem}
