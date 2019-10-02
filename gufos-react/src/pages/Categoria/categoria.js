@@ -100,6 +100,7 @@ class Categoria extends Component {
                             value={this.state.nome}
                             onInput={this.atualizarNome}
                             />
+                        </div>
                             <button
                             onClick={this.adicionarItem}
                             id="btn__cadastrar"
@@ -107,7 +108,6 @@ class Categoria extends Component {
                             >
                             Cadastrar
                             </button>
-                        </div>
                         </form>
                     </div>
                     </section>
