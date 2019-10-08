@@ -1,8 +1,8 @@
 import React,{Component} from 'react';
 
-class NaoEncontrado extends Component {
+class NaoEncontrado extends Component{
     render(){
-        return (
+        return(
             <div>404</div>
         )
     }

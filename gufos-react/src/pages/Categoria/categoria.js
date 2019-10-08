@@ -1,8 +1,12 @@
-import React, {Component} from 'react';
-import logo from '../../assets/img/icon-login.png';
-import Footer from '../../componentes/Footer/Footer'
+import React,{Component} from 'react';
 
-class Categoria extends Component {
+//imagem
+import logo from '../../assets/img/icon-login.png';
+
+//component
+import Rodape from '../../components/Rodape/Rodope';
+
+class Categoria extends Component{
 
     constructor(){
         super();
@@ -13,51 +17,56 @@ class Categoria extends Component {
                 // {idCategoria: 3, nome: "Meetup"}
             ],
             nome: ''
-        }
+        };
     }
 
-    componentDidMount() {
-        fetch('http://localhost:5000/api/categorias')
+    componentDidMount(){
+        fetch('http://192.168.7.85:5000/api/categorias')
             .then(response => response.json())
-            .then(data => this.setState({lista: data}))
+            .then(data => this.setState({ lista: data}));
     }
 
-    adicionarItem = (event) => {
+    adicionaItem = (event) => {
         event.preventDefault();
-        fetch('http://localhost:5000/api/categorias',{
+        console.log(this.state.nome);
+        fetch('http://192.168.7.85:5000/api/categorias',{
             method: "POST",
-            body: JSON.stringify({nome: this.state.nome}),
-            headers:{
-                "Content-Type" : "application/json"
+            body: JSON.stringify({ nome: this.state.nome }),
+            headers: {
+                "Content-Type": "application/json"
             }
         })
-            .then(response => response.json())
-            .then(this.adicionaCategoria)
-            .catch(erro => console.log(erro));
+        .then(response => console.log(response.json()))
+        .then(data => console.log(data))
+        .catch(error => console.log(error))
+
+
+        
     }
 
-    adicionaCategoria = (event) =>{
-        console.log(event)
+    adicionaCategoria = () =>{
         let valores_lista = this.state.lista;
         let categoria = {nome: this.state.nome}
-        valores_lista.push(categoria)
-        this.setState({lista:valores_lista})
+
+        valores_lista.push(categoria);
+
+        this.setState({lista: valores_lista});
     }
 
-    atualizarNome = (event) => {
-        this.setState({nome: event.target.value});
+    atualizarNome = (event) =>{
+        this.setState({nome: event.target.value})
+        console.log(this.state);
     }
 
     render(){
-        return (
+        return(
             <div>
                 <header className="cabecalhoPrincipal">
                     <div className="container">
                     <img src={logo} />
-
-                    <nav className="cabecalhoPrincipal-nav">
-                        Administrador
-                    </nav>
+                        <nav className="cabecalhoPrincipal-nav">
+                            Administrador
+                        </nav>
                     </div>
                 </header>
 
@@ -74,11 +83,11 @@ class Categoria extends Component {
                         </thead>
 
                         <tbody id="tabela-lista-corpo">
-                            {this.state.lista.map(Element => {
-                                return (
-                                    <tr key={Element.idCategoria}>
-                                        <td>{Element.idCategoria}</td>
-                                        <td>{Element.nome}</td>
+                            {this.state.lista.map(element =>{
+                                return(
+                                    <tr key={element.idCategoria}>
+                                        <td>{element.idCategoria}</td>
+                                        <td>{element.nome}</td>
                                     </tr>
                                 )
                             })}
@@ -100,21 +109,22 @@ class Categoria extends Component {
                             value={this.state.nome}
                             onInput={this.atualizarNome}
                             />
-                        </div>
                             <button
-                            onClick={this.adicionarItem}
                             id="btn__cadastrar"
+                            onClick={this.adicionaItem}
                             className="conteudoPrincipal-btn conteudoPrincipal-btn-cadastro"
                             >
                             Cadastrar
                             </button>
+                        </div>
                         </form>
                     </div>
                     </section>
                 </main>
-                <Footer/>
+
+                <Rodape />
             </div>
-        )
+        );
     }
 }
 
