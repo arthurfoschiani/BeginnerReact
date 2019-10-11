@@ -23,7 +23,7 @@ function App() {
 
             <nav className="cabecalhoPrincipal-nav">
               <a>Home</a>
-              <a>Eventos</a>
+              <Link to="/eventos">Eventos</Link>
               <a>Contato</a>
               <Link className="cabecalhoPrincipal-nav-login" to="/login">Login</Link>
             </nav>
